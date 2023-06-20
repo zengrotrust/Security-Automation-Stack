@@ -118,11 +118,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${SHUFFLE_APP_HOTLOAD_LOCATION}:/shuffle-apps:z
       - ${SHUFFLE_FILE_LOCATION}:/shuffle-files:z
-    env_file: .env
+    #env_file: .env
     environment:
       #- DOCKER_HOST=tcp://docker-socket-proxy:2375
-      - SHUFFLE_APP_HOTLOAD_FOLDER=/shuffle-apps
-      - SHUFFLE_FILE_LOCATION=/shuffle-files
+      - SHUFFLE_APP_HOTLOAD_FOLDER=/home/joey/Shuffle/shuffle-apps
+      - SHUFFLE_FILE_LOCATION=/home/joey/Shuffle/shuffle-files
     restart: unless-stopped
   orborus:
     image: ghcr.io/shuffle/shuffle-orborus:latest
