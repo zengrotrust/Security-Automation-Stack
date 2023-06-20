@@ -1,6 +1,8 @@
 # Security-Automation-Stack
 Capstone Project for Georgia Tech Master's in Cybersecurity
 
+Containerized open-source stack in one docker compose file.
+
 ![image](https://github.com/zengrotrust/Security-Automation-Stack/assets/19690744/8c4a7061-8cf1-4eaf-a529-59326bb88646)
 
 
