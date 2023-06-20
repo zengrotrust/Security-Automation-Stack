@@ -17,7 +17,9 @@
 ### $ sudo mkdir shuffle-database
 ### $ sudo chown -R 1000:1000 shuffle-database
 
-# 5.Replace all "/home/joey" with your home directory in docker-compose.yml
+# 5. Download docker-compose.yml and .env, place them in the same directory
 
-# 6. Run docker compose in the background
-### $ sudo docker-compose up -d
+# 6. Replace all "/home/joey" with your home directory in docker-compose.yml and .env
+
+# 6. Run docker compose
+### $ sudo docker compose up -d
