@@ -1,4 +1,8 @@
 # Security-Automation-Stack
+Capstone Project for Georgia Tech Master's in Cybersecurity
+
+![image](https://github.com/zengrotrust/Security-Automation-Stack/assets/19690744/8c4a7061-8cf1-4eaf-a529-59326bb88646)
+
 
 # 1. Clone the Wazuh repository to your home directory:
 ### $ cd
