@@ -11,7 +11,7 @@ services:
       - "514:514/udp"
       - "55000:55000"
     environment:
-      - INDEXER_URL=https://wazuh.indexer:9201
+      - INDEXER_URL=https://wazuh.indexer:9200
       - INDEXER_USERNAME=admin
       - INDEXER_PASSWORD=SecretPassword
       - FILEBEAT_SSL_VERIFICATION_MODE=full
@@ -118,7 +118,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${SHUFFLE_APP_HOTLOAD_LOCATION}:/shuffle-apps:z
       - ${SHUFFLE_FILE_LOCATION}:/shuffle-files:z
-    env_file: .env
+    env_file: stack.env
     environment:
       #- DOCKER_HOST=tcp://docker-socket-proxy:2375
       - SHUFFLE_APP_HOTLOAD_FOLDER=/home/joey/Shuffle/shuffle-apps
@@ -172,6 +172,150 @@ services:
       - 9200:9200
     restart: unless-stopped
 
+  thehive:
+    image: strangebee/thehive:latest
+    restart: unless-stopped
+    depends_on:
+      - cassandra
+      - elasticsearch
+      - minio
+      - cortex.local
+    mem_limit: 1500m
+    ports:
+      - "0.0.0.0:9000:9000"
+    environment:
+      - JVM_OPTS="-Xms1024M -Xmx1024M"
+    command:
+      - --secret
+      - "lab123456789"
+      - "--cql-hostnames"
+      - "cassandra"
+      - "--index-backend"
+      - "elasticsearch"
+      - "--es-hostnames"
+      - "elasticsearch"
+      - "--s3-endpoint"
+      - "http://minio:9002"
+      - "--s3-access-key"
+      - "minioadmin"
+      - "--s3-secret-key"
+      - "minioadmin"
+      - "--s3-use-path-access-style"
+      # "--no-config-cortex"
+      #- "--cortex-port"
+      #- "9001"
+      #- "--cortex-keys"
+      #- "k3DZO07qOoIMfNNS5qLloPmMS2PnhMMR"
+    volumes:
+      - thehivedata:/etc/thehive/application.conf
+
+  cassandra:
+    image: 'cassandra:4'
+    restart: unless-stopped
+    mem_limit: 1000m
+    ports:
+      - "0.0.0.0:9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=TheHive
+    volumes:
+      - cassandradata:/var/lib/cassandra
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.4
+    restart: unless-stopped
+    mem_limit: 512m
+    ports:
+      - "0.0.0.0:9205:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - cluster.name=hive
+      - http.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+
+  minio:
+    image: quay.io/minio/minio
+    restart: unless-stopped
+    command: ["minio", "server", "/data", "--console-address", ":9002"]
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    ports:
+      - "0.0.0.0:9002:9002"
+    volumes:
+      - "miniodata:/data"
+
+  cortex.local:
+    image: thehiveproject/cortex:latest
+    restart: unless-stopped
+    environment:
+      - job_directory=/opt/cortex/jobs
+      - docker_job_directory=/tmp/cortex-jobs
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/cortex-jobs:/tmp/cortex-jobs
+      - /home/joey/cortex/logs:/var/log/cortex
+      - /home/joey/cortex/application.conf:/cortex/application.conf
+      #- cortexdata:/var/run/docker.sock
+      #- cortexdata:/opt/cortex/jobs
+      #- cortexdata:/var/log/cortex
+      #- cortexdata:/cortex/application.conf
+    depends_on:
+      - elasticsearch
+    ports:
+      - "0.0.0.0:9001:9001"
+      
+  misp.local:
+    image: coolacid/misp-docker:core-latest
+    restart: unless-stopped
+    depends_on: 
+      - misp_mysql
+    ports:
+      - "0.0.0.0:85:80"
+      - "0.0.0.0:448:443"
+    volumes:
+      - "./server-configs/:/var/www/MISP/app/Config/"
+      - "./logs/:/var/www/MISP/app/tmp/logs/"
+      - "./files/:/var/www/MISP/app/files"
+      - "./ssl/:/etc/nginx/certs"
+    environment:
+      - MYSQL_HOST=misp_mysql
+      - MYSQL_DATABASE=mispdb
+      - MYSQL_USER=mispuser
+      - MYSQL_PASSWORD=misppass
+      - MISP_ADMIN_EMAIL=mispadmin@lab.local
+      - MISP_ADMIN_PASSPHRASE=mispadminpass
+      - MISP_BASEURL=localhost
+      - TIMEZONE=Europe/London
+      - "INIT=true"         
+      - "CRON_USER_ID=1"   
+      - "REDIS_FQDN=redis"
+      - "HOSTNAME=https://10.200.200.253"
+
+  misp_mysql:
+    image: mysql/mysql-server:5.7
+    restart: unless-stopped
+    volumes:
+      - mispsqldata:/var/lib/mysql   
+    environment:
+      - MYSQL_DATABASE=mispdb
+      - MYSQL_USER=mispuser
+      - MYSQL_PASSWORD=misppass
+      - MYSQL_ROOT_PASSWORD=mispass
+
+  redis:
+    image: redis:5.0.6
+
+  misp-modules:
+    image: coolacid/misp-docker:modules-latest
+    environment:
+      - "REDIS_BACKEND=redis"
+    depends_on:
+      - redis
+      - misp_mysql  
+
 volumes:
   wazuh_api_configuration:
   wazuh_etc:
@@ -185,3 +329,9 @@ volumes:
   filebeat_etc:
   filebeat_var:
   wazuh-indexer-data:
+  miniodata:
+  cassandradata:
+  elasticsearchdata:
+  cortexdata:
+  thehivedata:
+  mispsqldata:
