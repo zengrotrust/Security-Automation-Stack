@@ -31,6 +31,7 @@ Containerized open-source stack in one docker compose file.
 
 # 7. Cortex
 ### $ sudo mkdir cortex
+### $ sudo cd cortex
 ### $ sudo touch configuration.conf
 
 # 8. Run docker compose
