@@ -29,10 +29,14 @@ Containerized open-source stack in one docker compose file.
 
 # 6. Replace all "/home/ubuntu" with your home directory in docker-compose.yml and .env
 
-# 6. Run docker compose
+# 7. Cortex
+### $ sudo mkdir cortex
+### $ sudo touch configuration.conf
+
+# 8. Run docker compose
 ### $ sudo docker compose up -d
 
-# 7. Alternatively, you can deploy a stack via the Portainer GUI
+# 9. Alternatively, you can deploy a stack via the Portainer GUI
 ### Make sure you load variables from .env file and change .env to stack.env
 
 ![image](https://github.com/zengrotrust/Security-Automation-Stack/assets/19690744/37db88c2-4ece-4aa3-aeca-b3673b1154cb)
