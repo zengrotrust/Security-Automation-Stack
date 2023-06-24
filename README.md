@@ -5,6 +5,17 @@ Containerized open-source stack in one docker compose file.
 
 ![image](https://github.com/zengrotrust/Security-Automation-Stack/assets/19690744/8c4a7061-8cf1-4eaf-a529-59326bb88646)
 
+Increase max_map_count on your host (Linux)
+Wazuh indexer creates many memory-mapped areas. So you need to set the kernel to give a process at least 262,144 memory-mapped areas.
+
+Increase max_map_count on your Docker host:
+
+`sysctl -w vm.max_map_count=262144`
+
+Update the vm.max_map_count setting in `/etc/sysctl.conf` to set this value permanently. To verify after rebooting, run `sysctl vm.max_map_count`.
+
+Warning If you don’t set the max_map_count on your host, the Wazuh indexer will NOT work properly.
+
 
 # 1. Clone the Wazuh repository to your home directory:
 ### $ cd
