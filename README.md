@@ -15,7 +15,7 @@ Containerized open-source stack in one docker compose file.
 
 # 3. Generate the Wazuh certificates:
 ### $ cd wazuh-docker/single-node
-### $ sudo docker-compose -f generate-indexer-certs.yml run --rm generator
+### $ sudo docker compose -f generate-indexer-certs.yml run --rm generator
 
 # 4. Fix prerequisites for the Opensearch database
 ### $ cd
@@ -23,7 +23,9 @@ Containerized open-source stack in one docker compose file.
 ### $ sudo mkdir shuffle-database
 ### $ sudo chown -R 1000:1000 shuffle-database
 
-# 5. Download docker-compose.yml and .env, place them in the same directory
+# 5. Clone this repository
+### $cd
+### $sudo git clone https://github.com/zengrotrust/Security-Automation-Stack
 
 # 6. Replace all "/home/joey" with your home directory in docker-compose.yml and .env
 
