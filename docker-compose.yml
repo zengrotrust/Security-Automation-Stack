@@ -118,7 +118,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${SHUFFLE_APP_HOTLOAD_LOCATION}:/shuffle-apps:z
       - ${SHUFFLE_FILE_LOCATION}:/shuffle-files:z
-    env_file: .env
+    env_file: stack.env
     environment:
       #- DOCKER_HOST=tcp://docker-socket-proxy:2375
       - SHUFFLE_APP_HOTLOAD_FOLDER=/home/ubuntu/Shuffle/shuffle-apps
@@ -187,7 +187,7 @@ services:
       - JVM_OPTS="-Xms1024M -Xmx1024M"
     command:
       - --secret
-      - "lab123456789"
+      - "SecretPassword"
       - "--cql-hostnames"
       - "cassandra"
       - "--index-backend"
@@ -257,7 +257,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/cortex-jobs:/tmp/cortex-jobs
       - /home/ubuntu/cortex/logs:/var/log/cortex
-      - /home/ubuntu/cortex/application.conf:/cortex/application.conf
+      - /home/ubuntu/cortex/application.conf:/etc/cortex/application.conf
       #- cortexdata:/var/run/docker.sock
       #- cortexdata:/opt/cortex/jobs
       #- cortexdata:/var/log/cortex
