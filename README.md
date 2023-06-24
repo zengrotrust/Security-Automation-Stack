@@ -27,7 +27,7 @@ Containerized open-source stack in one docker compose file.
 ### $cd
 ### $sudo git clone https://github.com/zengrotrust/Security-Automation-Stack
 
-# 6. Replace all "/home/joey" with your home directory in docker-compose.yml and .env
+# 6. Replace all "/home/ubuntu" with your home directory in docker-compose.yml and .env
 
 # 6. Run docker compose
 ### $ sudo docker compose up -d
