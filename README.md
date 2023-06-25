@@ -40,15 +40,10 @@ Warning If you don’t set the max_map_count on your host, the Wazuh indexer wil
 
 # 6. Replace all "/home/ubuntu" with your home directory in docker-compose.yml and .env
 
-# 7. Cortex
-### $ sudo mkdir cortex
-### $ cd cortex
-### $ sudo touch application.conf
-
-# 8. Run docker compose
+# 7. Run docker compose
 ### $ sudo docker compose up -d
 
-# 9. Alternatively, you can deploy a stack via the Portainer GUI
+# 8. Alternatively, you can deploy a stack via the Portainer GUI
 ### Make sure you load variables from .env file and change .env to stack.env
 
 ![image](https://github.com/zengrotrust/Security-Automation-Stack/assets/19690744/37db88c2-4ece-4aa3-aeca-b3673b1154cb)
