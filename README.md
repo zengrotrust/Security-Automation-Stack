@@ -14,7 +14,7 @@ Increase max_map_count on your Docker host:
 
 Update the vm.max_map_count setting in `/etc/sysctl.conf` to set this value permanently. To verify after rebooting, run `sysctl vm.max_map_count`.
 
-Warning If you don’t set the max_map_count on your host, the Wazuh indexer will NOT work properly.
+Warning If you don’t set the max_map_count on your host, the Wazuh, TheHive, and Shuffle indexers will NOT work properly.
 
 
 # 1. Clone the Wazuh repository to your home directory:
