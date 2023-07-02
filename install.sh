@@ -9,7 +9,9 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# Optional volume for Portainer, Docker GUI Management
 sudo docker volume create portainer_data
+# Optional installation for Portainer, Docker GUI Management
 sudo docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ee:latest
 cd
 sudo git clone https://github.com/wazuh/wazuh-docker.git -b v4.4.4
