@@ -1,3 +1,4 @@
+# This auto-install script only works if your home dir is /home/ubuntu. Otherwise, replace /home/ubuntu to your home dir in docker-compose.yml and .env 
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
