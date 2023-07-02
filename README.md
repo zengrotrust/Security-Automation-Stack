@@ -16,7 +16,7 @@ Update the vm.max_map_count setting in `/etc/sysctl.conf` to set this value perm
 
 Warning If you don’t set the max_map_count on your host, the Wazuh, TheHive, and Shuffle indexers will NOT work properly.
 
-Use install.sh script for auto-installation.
+Run install.sh script for auto-installation (`sudo chmod +x install.sh` to make it executable).
 
 # 1. Clone the Wazuh repository to your home directory:
 ### $ cd
